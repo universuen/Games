@@ -44,10 +44,10 @@ class LifeGame(PlayBoard):
 
 
 class LangDonAnt(PlayBoard):
-    def __init__(self, height=50, width=100, rate=0.1, position=None, direction=0):
+    def __init__(self, height=50, width=100, rate=0, position=None, direction=0):
         super().__init__(height, width, rate)
         if position is None:
-            position = [int(height/2), int(width/2)]
+            position = [int(height / 2), int(width / 2)]
         self.direction = direction
         self.position = position
         self.data_board = self.play_board.copy()
@@ -76,4 +76,34 @@ class LangDonAnt(PlayBoard):
             self.position[1] = (self.position[1] - 1) % self.play_board.shape[1]
 
 
+class WireWorld(PlayBoard):
+    def __init__(self, diagram):
+        super().__init__(diagram.shape[0], diagram.shape[1], 0)
+        self.play_board = diagram
 
+    def update(self):
+        copy_board = self.play_board.copy()
+        for i in range(self.play_board.shape[0]):
+            for j in range(self.play_board.shape[1]):
+                if self.play_board[i][j] in (1, 2):
+                    copy_board[i][j] += 1
+                elif self.play_board[i][j] == 3:
+                    up = (i - 1) % self.play_board.shape[0]
+                    down = (i + 1) % self.play_board.shape[0]
+                    left = (j - 1) % self.play_board.shape[1]
+                    right = (j + 1) % self.play_board.shape[1]
+                    around = sum(
+                        [
+                            self.play_board[up][left] == 1,
+                            self.play_board[up][j] == 1,
+                            self.play_board[up][right] == 1,
+                            self.play_board[i][left] == 1,
+                            self.play_board[i][right] == 1,
+                            self.play_board[down][left] == 1,
+                            self.play_board[down][j] == 1,
+                            self.play_board[down][right] == 1
+                        ]
+                    )
+                    if around == 1 or around == 2:
+                        copy_board[i][j] = 1
+        self.play_board = copy_board
