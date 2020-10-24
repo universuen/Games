@@ -1,6 +1,7 @@
 import numpy as np
 from games import LifeGame, LangDonAnt, WireWorld
-
+#some changes to test git.
+#thanks!
 if __name__ == '__main__':
     # ant = LangDonAnt(200, 300)
     # ant.show()
