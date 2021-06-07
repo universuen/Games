@@ -4,7 +4,7 @@ import numpy as np
 
 
 class LifeGame(PlayBoard):
-    def __init__(self,board: np.ndarray,):
+    def __init__(self, board: np.ndarray, ):
         super().__init__(board)
         assert self._board_validity is True, "The value in the board should only be 0 or 1."
 
@@ -16,21 +16,8 @@ class LifeGame(PlayBoard):
                     return False
         return True
 
-    def _get_neighbour_num(self, i, j):
-        up = (i - 1) % self.board.shape[0]
-        down = (i + 1) % self.board.shape[0]
-        left = (j - 1) % self.board.shape[1]
-        right = (j + 1) % self.board.shape[1]
-        return sum([
-            self.board[up][left],
-            self.board[up][j],
-            self.board[up][right],
-            self.board[i][left],
-            self.board[i][right],
-            self.board[down][left],
-            self.board[down][j],
-            self.board[down][right]
-        ])
+    def _get_neighbour_num(self, i: int, j: int) -> int:
+        return self.board[i - 1:i + 2, j - 1:j + 2].sum() - self.board[i][j]
 
     def _step(self):
         board = self.board.copy()
