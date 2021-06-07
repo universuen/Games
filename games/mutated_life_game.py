@@ -15,14 +15,11 @@ class MutatedLifeGame(LifeGame):
         board = self.board.copy()
         for i, row in enumerate(self.board):
             for j, value in enumerate(row):
-                if random.random() < self.mutation_rate:
-                    continue
                 neighbour_num = self._get_neighbour_num(i, j)
                 if neighbour_num < 2 or neighbour_num > 3:
                     board[i][j] = 0
                 elif neighbour_num == 3:
                     board[i][j] = 1
-                else:
-                    board[i][j] = value
+                if random.random() < self.mutation_rate and value == 0:
+                    board[i][j] = 1
         self.board = board
-

@@ -41,6 +41,4 @@ class LifeGame(PlayBoard):
                     board[i][j] = 0
                 elif neighbour_num == 3:
                     board[i][j] = 1
-                else:
-                    board[i][j] = value
         self.board = board
